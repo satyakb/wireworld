@@ -60,7 +60,7 @@ var lifeFns = [
   repub,
 ];
 
-var fns = lifeFns;
+var fns = wireWorldFns;
 /*****************************************************************************/
 
 // Main
