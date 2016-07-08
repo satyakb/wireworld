@@ -28,12 +28,39 @@ function conductor($tile, numNeighbors) {
   }
 }
 
-var fns = [
+var wireWorldFns = [
   empty,
   head,
   tail,
   conductor,
 ];
+
+function underpop($tile, numNeighbors) {
+  if ($tile.data('state') === HEAD && numNeighbors < 2) return EMPTY;
+}
+
+function nextgen($tile, numNeighbors) {
+  if ($tile.data('state') === HEAD && (numNeighbors === 2 || numNeighbors === 3)) return HEAD;
+}
+
+function overpop($tile, numNeighbors) {
+  if ($tile.data('state') === HEAD && numNeighbors > 3) {
+    return EMPTY;
+  }
+}
+
+function repub($tile, numNeighbors) {
+  if ($tile.data('state') === EMPTY && numNeighbors === 3) return HEAD;
+}
+
+var lifeFns = [
+  underpop,
+  overpop,
+  nextgen,
+  repub,
+];
+
+var fns = lifeFns;
 /*****************************************************************************/
 
 // Main
@@ -84,7 +111,7 @@ function loop() {
         var newColor = fns[k]($tile, numNeighbors);
 
         // If function has a result, use it
-        if (newColor) {
+        if (typeof newColor !== 'undefined') {
           row.push(newColor);
           changed = true;
           break;
