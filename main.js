@@ -1,11 +1,13 @@
 var grid = [];
 var isPaused = true;
-var colorMap = ['black', 'blue', 'red', 'yellow'];
 
+const X = 10;
+const Y = 20;
 const EMPTY = 0;
 const HEAD = 1;
 const TAIL = 2;
 const CONDUCTOR = 3;
+const COLOR_MAP = ['black', 'blue', 'red', 'yellow'];
 
 /********************* Default Evaluation Functions **************************/
 function empty($tile, numNeighbors) {
@@ -36,9 +38,6 @@ var fns = [
 
 // Main
 $(function() {
-  var X = 5;
-  var Y = 10;
-
   var $app = $('#app');
   $app.append(createGrid(X, Y))
 
@@ -140,13 +139,13 @@ function createTile(x, y, num) {
   var $tile = $("<div>", {class: 'tile'});
   $tile.data('num', num);
   $tile.data('state', EMPTY);
-  $tile.css('background-color', colorMap[0]);
+  $tile.css('background-color', COLOR_MAP[EMPTY]);
 
   $tile.click(function(){
     var num = $tile.data('num');
     var color = $tile.data('state');
 
-    var newColor = (color + 1) % colorMap.length;
+    var newColor = (color + 1) % COLOR_MAP.length;
     updateTile(x, y, newColor);
   });
 
@@ -162,7 +161,7 @@ function createTile(x, y, num) {
 function updateTile(x, y, newState) {
   var $tile = grid[x][y];
   $tile.data('state', newState);
-  $tile.css('background-color', colorMap[newState]);
+  $tile.css('background-color', COLOR_MAP[newState]);
 }
 
 /**
@@ -190,4 +189,3 @@ function calcNumNeighbors(x, y) {
 
   return num;
 }
-
